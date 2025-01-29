@@ -1,117 +1,64 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React, { useEffect, useState } from 'react';
+import { Text, View, StyleSheet } from 'react-native';
+import firebase from '@react-native-firebase/app';
+import firestore from '@react-native-firebase/firestore';
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+const App = () => {
+  const [testData, setTestData] = useState<string>('Bağlantı test ediliyor...');
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+  useEffect(() => {
+    initializeFirebase();
+    testFirebaseConnection();
+  }, []);
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+  const initializeFirebase = () => {
+    if (!firebase.apps.length) {
+      firebase.initializeApp(); // Gerekirse Firebase config buraya eklenebilir.
+      console.log('Firebase initialized');
+    }
+  };
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+  const testFirebaseConnection = async () => {
+    try {
+      const testDocRef = firestore().collection('test').doc('connection-test');
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+      // Firestore'a test verisi yaz
+      await testDocRef.set({
+        message: 'Firebase bağlantısı başarılı!',
+        timestamp: firestore.FieldValue.serverTimestamp(),
+      });
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+      // Firestore'dan veriyi oku
+      const document = await testDocRef.get();
+
+      if (document.exists) {
+        const data = document.data()?.message;
+        setTestData(`Firebase bağlantısı başarılı! Veri: ${data}`);
+      }
+    } catch (error) {
+      setTestData(`Firebase bağlantı hatası: ${error.message}`);
+      console.error('Firebase bağlantı hatası:', error);
+    }
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edittt <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <Text style={styles.testText}>{testData}</Text>
+    </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
+  testText: {
     fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+    color: 'green',
+    textAlign: 'center',
   },
 });
 
