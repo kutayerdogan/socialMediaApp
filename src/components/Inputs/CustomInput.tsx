@@ -2,23 +2,28 @@ import { TextInputProps, View, Text, StyleSheet, TextInput, Touchable, Touchable
 import { Icons } from "../../constants/Icons";
 import { Colors } from "../../constants/Colors";
 import { Fonts } from "../../constants/Fonts";
-import { useState } from "react";
+import { FunctionComponent, useState } from "react";
+import { SvgFromXml, SvgProps } from "react-native-svg";
+import { InputTypes } from "../../enums/InputTypes";
+
+type StatusType = 'default' | 'active' | 'fill';
+
 
 interface CustomInputProps extends TextInputProps {
-    type?: 'default' | 'username' | 'email' | 'password' | 'normal' | 'phone' | 'code',
+    type?: InputTypes,
     value?: string;
     onChangeText?: (text: string) => void;
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
-    type = 'default',
+    type = InputTypes.Default,
     value,
     onChangeText,
     ...props
 }) => {
 
     const [isPasswordHidden, setIsPasswordHidden] = useState(true);
-    const [status, setStatus] = useState<'default' | 'active' | 'fill'>('default');
+    const [status, setStatus] = useState<StatusType>(InputTypes.Default);
 
     const handleFocus = () => setStatus('active');
     const handleBlur = () => {
@@ -26,16 +31,20 @@ const CustomInput: React.FC<CustomInputProps> = ({
         setStatus(newStatus);
     }
     const renderIcon = () => {
+        let Icon = null;
+
         switch (type) {
             case 'username' || 'normal':
-                return <Icons.profile style={[styles.logo, {color: getIconColor()}]}/>
+                Icon = Icons.profile;
+                break;
             case 'email':
-                return <Icons.mail style={[styles.logo, {color: getIconColor()}]}/>
+                Icon = Icons.mail;
+                break;
             case 'password':
-                return <Icons.lock style={[styles.logo, {color: getIconColor()}]}/>
-            default:
-                return 
+                Icon = Icons.lock;
+                break;
         }
+        return Icon ? <Icon color={getIconColor()} style={[styles.logo]} /> : null;
     }
 
     const placeHolderText = () => {
@@ -121,6 +130,7 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.medium,
         fontSize: 14,
         color: Colors.greyscale[900],
+        height: '100%',
     },
     rightLogo: {
         width: 20,

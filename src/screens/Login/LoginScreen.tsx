@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import CustomButton from '../../components/Buttons/CustomButton'
 import CustomInput from '../../components/Inputs/CustomInput'
+import { InputTypes } from '../../enums/InputTypes'
 
 const LoginScreen = () => {
   const [value, setValue] = useState('')
@@ -34,12 +35,13 @@ const LoginScreen = () => {
       />
       <Text style={{color:'black'}}>dkslfdkkdlfs</Text>
       <CustomInput
-        type='password'
+        type={InputTypes.Password}
         value={value}
         onChangeText={setValue}
       />
       <CustomInput
-        type='email'
+        type={InputTypes.Email}
+        value='dksds'
       />
 
     </SafeAreaView>

@@ -6,6 +6,8 @@ import ArrowDown from '../assets/icons/Arrow-Down.svg';
 import Hide from '../assets/icons/Hide.svg';
 import Lock from '../assets/icons/Lock.svg';
 import Mail from '../assets/icons/Message.svg';
+import Welcome from '../assets/icons/welcome.svg';
+import ArrowLeft from '../assets/icons/Arrow-Left.svg';
 
 export const Icons = {
     apple: AppleIcon,
@@ -16,4 +18,6 @@ export const Icons = {
     hide: Hide,
     lock: Lock,
     mail: Mail,
+    welcome: Welcome,
+    arrowLeft: ArrowLeft,
 }
