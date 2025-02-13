@@ -13,8 +13,9 @@ const AuthNavigator = () => {
             headerShown: false
         }}
     > 
-      <Stack.Screen name={RouteNames.LOGIN} component={LoginScreen} />
       <Stack.Screen name={RouteNames.WELCOME} component={WelcomeScreen} />
+
+      <Stack.Screen name={RouteNames.LOGIN} component={LoginScreen} />
 
       
     </Stack.Navigator>

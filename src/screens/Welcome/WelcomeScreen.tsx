@@ -1,30 +1,125 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { Icons } from '../../constants/Icons'
-import CustomHeader from '../../components/Header/CustomHeader'
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import {Icons} from '../../constants/Icons';
+import CustomHeader from '../../components/Header/CustomHeader';
+import CustomButton from '../../components/Buttons/CustomButton';
+import {Colors} from '../../constants/Colors';
+import {Fonts} from '../../constants/Fonts';
 
 const WelcomeScreen = () => {
   return (
-    <View style={{paddingTop: 50}}>
-      <Text>WelcomeScreen</Text>
-      <CustomHeader title='Header'/>
-      <View style={styles.welcomeContainer}>
-        <Icons.welcome style={styles.icon}/>
+    <View style={styles.container}>
+      <CustomHeader onBackPress={() => console.log("onBackPress")}/>
+      <View style={styles.iconContainer}>
+        <Icons.welcome/>
+      </View>
+      <View style={styles.welcomeTextContainer}>
+        <Text style={styles.welcomeText}>Let's you in</Text>
+      </View>
+      <View style={styles.buttonsContainer}>
+        <CustomButton
+          variant="social"
+          buttonStyle="facebook"
+          state="active"
+          text="Continue with Facebook"
+          onPress={() => console.log('Continue with Facebook')}
+        />
+        <CustomButton
+          variant="social"
+          buttonStyle="google"
+          state="active"
+          text="Continue with Google"
+          onPress={() => console.log('Continue with Google')}
+        />
+        <CustomButton
+          variant="social"
+          buttonStyle="apple"
+          state="active"
+          text="Continue with Apple"
+          onPress={() => console.log('Continue with Apple')}
+        />
+        <View style={styles.seperator}>
+          <View style={styles.line}></View>
+          <Text style={styles.orText}>or</Text>
+          <View style={styles.line}></View>
+        </View>
+        <CustomButton
+          variant="primary"
+          buttonStyle="rounded"
+          state="active"
+          text="Sign in with password"
+          onPress={() => console.log('Continue with Sign in with password')}
+        />
+      </View>
+      <View style={styles.footerContainer}>
+        <Text
+          style={{
+            color: Colors.greyscale[500],
+            fontFamily: Fonts.medium,
+            fontSize: 14,
+          }}>
+          Don't have an account?{' '}
+        </Text>
+        <TouchableOpacity onPress={() => console.log('Sign up')}>
+          <Text
+            style={{
+              color: Colors.main.primary[500],
+              fontFamily: Fonts.semibold,
+              fontSize: 14,
+            }}>
+            Sign up
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
-  )
-}
+  );
+};
 
-export default WelcomeScreen
+export default WelcomeScreen;
 
 const styles = StyleSheet.create({
-    welcomeContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 100
-    },
-    icon: {
-        
-
-    }
-})
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
+    marginHorizontal: 24,
+    marginTop: 24,
+    marginBottom: 48,
+  },
+  iconContainer: {
+    width: '100%',
+    aspectRatio: 1.9333,
+  },
+  welcomeTextContainer: {
+  },
+  welcomeText: {
+    fontFamily: Fonts.bold,
+    fontSize: 40,
+    textAlign: 'center',
+    color: Colors.greyscale[900],
+  },
+  buttonsContainer: {
+    gap: 16,
+  },
+  seperator: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 16,
+    marginVertical: 8,
+  },
+  line: {
+    width: '40%',
+    height: 1,
+    backgroundColor: Colors.greyscale[200],
+  },
+  orText: {
+    fontFamily: Fonts.semibold,
+    fontSize: 18,
+    color: Colors.greyscale[700],
+  },
+  footerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

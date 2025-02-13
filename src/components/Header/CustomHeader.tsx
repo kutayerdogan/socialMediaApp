@@ -6,7 +6,7 @@ import { Fonts } from '../../constants/Fonts'
 
 interface CustomHeaderProps{
     onBackPress?: () => void;
-    title: string;
+    title?: string;
 }
 
 const CustomHeader: React.FC<CustomHeaderProps> = ({
