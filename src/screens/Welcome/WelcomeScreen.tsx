@@ -5,6 +5,9 @@ import CustomHeader from '../../components/Header/CustomHeader';
 import CustomButton from '../../components/Buttons/CustomButton';
 import {Colors} from '../../constants/Colors';
 import {Fonts} from '../../constants/Fonts';
+import { VariantTypes } from '../../enums/VariantTypes';
+import { ButtonStyles } from '../../enums/ButtonStyles';
+import { ButtonStates } from '../../enums/ButtonStates';
 
 const WelcomeScreen = () => {
   return (
@@ -18,23 +21,23 @@ const WelcomeScreen = () => {
       </View>
       <View style={styles.buttonsContainer}>
         <CustomButton
-          variant="social"
-          buttonStyle="facebook"
-          state="active"
+          variant={VariantTypes.Social}
+          buttonStyle={ButtonStyles.Facebook}
+          state={ButtonStates.Active}
           text="Continue with Facebook"
           onPress={() => console.log('Continue with Facebook')}
         />
         <CustomButton
-          variant="social"
-          buttonStyle="google"
-          state="active"
+          variant={VariantTypes.Social}
+          buttonStyle={ButtonStyles.Google}
+          state={ButtonStates.Active}
           text="Continue with Google"
           onPress={() => console.log('Continue with Google')}
         />
         <CustomButton
-          variant="social"
-          buttonStyle="apple"
-          state="active"
+          variant={VariantTypes.Social}
+          buttonStyle={ButtonStyles.Apple}
+          state={ButtonStates.Active}
           text="Continue with Apple"
           onPress={() => console.log('Continue with Apple')}
         />
@@ -44,9 +47,9 @@ const WelcomeScreen = () => {
           <View style={styles.line}></View>
         </View>
         <CustomButton
-          variant="primary"
-          buttonStyle="rounded"
-          state="active"
+          variant={VariantTypes.Primary}
+          buttonStyle={ButtonStyles.Rounded}
+          state={ButtonStates.Active}
           text="Sign in with password"
           onPress={() => console.log('Continue with Sign in with password')}
         />

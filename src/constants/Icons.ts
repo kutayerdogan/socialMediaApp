@@ -8,6 +8,8 @@ import Lock from '../assets/icons/Lock.svg';
 import Mail from '../assets/icons/Message.svg';
 import Welcome from '../assets/icons/welcome.svg';
 import ArrowLeft from '../assets/icons/Arrow-Left.svg';
+import CheckboxEmpty from '../assets/icons/checkbox-empty.svg';
+import CheckboxTrue from '../assets/icons/checkbox-true.svg';
 
 export const Icons = {
     apple: AppleIcon,
@@ -20,4 +22,9 @@ export const Icons = {
     mail: Mail,
     welcome: Welcome,
     arrowLeft: ArrowLeft,
+    checkbox: {
+        empty: CheckboxEmpty,
+        true: CheckboxTrue,
+    },
+
 }
