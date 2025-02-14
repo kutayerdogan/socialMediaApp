@@ -21,10 +21,10 @@ import {ButtonStates} from '../../enums/ButtonStates';
 import Checkbox from '../../components/Checkbox/Checkbox';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useNavigation} from '@react-navigation/native';
-import { RouteNames } from '../../navigation/RouteNames';
-import { firebase } from '@react-native-firebase/auth';
+import {RouteNames} from '../../navigation/RouteNames';
+import {firebase} from '@react-native-firebase/auth';
 
-const LoginScreen = () => {
+const SignUpScreen = () => {
   const navigation = useNavigation();
   const [rememberMe, setRememberMe] = useState(false);
   const [email, setEmail] = useState('');
@@ -42,25 +42,23 @@ const LoginScreen = () => {
     return !emailCheck() || !passwordCheck();
   };
   // firebase
-  const handleLogin = () => {
+  const handleSignUp = () => {
     firebase
       .auth()
-      .signInWithEmailAndPassword(email, password)
+      .createUserWithEmailAndPassword(email, password)
       .then(() => {
-        Alert.alert('Logged in successfully');
-      })
+        Alert.alert('Account created successfully');      })
       .catch(error => {
         Alert.alert(error.message);
       });
   };
-
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
         <CustomHeader onBackPress={() => navigation.goBack()} />
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>Login to your Account</Text>
+          <Text style={styles.title}>Create your Account</Text>
         </View>
         <KeyboardAwareScrollView
           style={{flex: 1, gap: 24, paddingTop: 24}}
@@ -96,8 +94,8 @@ const LoginScreen = () => {
               }
               buttonStyle={ButtonStyles.Rounded}
               state={isDisabled() ? ButtonStates.Disabled : ButtonStates.Active}
-              text="Sign in"
-              onPress={handleLogin}
+              text="Sign up"
+              onPress={handleSignUp}
             />
             <TouchableOpacity onPress={() => console.log('Forgot password')}>
               <Text style={styles.forgotPassword}>Forgot password?</Text>
@@ -137,14 +135,15 @@ const LoginScreen = () => {
               }}>
               Don't have an account?{' '}
             </Text>
-            <TouchableOpacity onPress={() => navigation.navigate(RouteNames.SIGNUP)}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate(RouteNames.SIGNUP)}>
               <Text
                 style={{
                   color: Colors.main.primary[500],
                   fontFamily: Fonts.semibold,
                   fontSize: 14,
                 }}>
-                Sign up
+                Sign in
               </Text>
             </TouchableOpacity>
           </View>
@@ -154,7 +153,7 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default SignUpScreen;
 
 const styles = StyleSheet.create({
   container: {

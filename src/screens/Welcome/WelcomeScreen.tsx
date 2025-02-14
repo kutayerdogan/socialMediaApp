@@ -5,8 +5,14 @@ import CustomHeader from '../../components/Header/CustomHeader';
 import CustomButton from '../../components/Buttons/CustomButton';
 import {Colors} from '../../constants/Colors';
 import {Fonts} from '../../constants/Fonts';
+import { VariantTypes } from '../../enums/VariantTypes';
+import { ButtonStyles } from '../../enums/ButtonStyles';
+import { ButtonStates } from '../../enums/ButtonStates';
+import { useNavigation } from '@react-navigation/native';
+import { RouteNames } from '../../navigation/RouteNames';
 
 const WelcomeScreen = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <CustomHeader onBackPress={() => console.log("onBackPress")}/>
@@ -18,23 +24,23 @@ const WelcomeScreen = () => {
       </View>
       <View style={styles.buttonsContainer}>
         <CustomButton
-          variant="social"
-          buttonStyle="facebook"
-          state="active"
+          variant={VariantTypes.Social}
+          buttonStyle={ButtonStyles.Facebook}
+          state={ButtonStates.Active}
           text="Continue with Facebook"
           onPress={() => console.log('Continue with Facebook')}
         />
         <CustomButton
-          variant="social"
-          buttonStyle="google"
-          state="active"
+          variant={VariantTypes.Social}
+          buttonStyle={ButtonStyles.Google}
+          state={ButtonStates.Active}
           text="Continue with Google"
           onPress={() => console.log('Continue with Google')}
         />
         <CustomButton
-          variant="social"
-          buttonStyle="apple"
-          state="active"
+          variant={VariantTypes.Social}
+          buttonStyle={ButtonStyles.Apple}
+          state={ButtonStates.Active}
           text="Continue with Apple"
           onPress={() => console.log('Continue with Apple')}
         />
@@ -44,11 +50,11 @@ const WelcomeScreen = () => {
           <View style={styles.line}></View>
         </View>
         <CustomButton
-          variant="primary"
-          buttonStyle="rounded"
-          state="active"
+          variant={VariantTypes.Primary}
+          buttonStyle={ButtonStyles.Rounded}
+          state={ButtonStates.Active}
           text="Sign in with password"
-          onPress={() => console.log('Continue with Sign in with password')}
+          onPress={() => navigation.navigate(RouteNames.LOGIN)}
         />
       </View>
       <View style={styles.footerContainer}>
@@ -60,7 +66,7 @@ const WelcomeScreen = () => {
           }}>
           Don't have an account?{' '}
         </Text>
-        <TouchableOpacity onPress={() => console.log('Sign up')}>
+        <TouchableOpacity onPress={() => navigation.navigate(RouteNames.SIGNUP)}>
           <Text
             style={{
               color: Colors.main.primary[500],

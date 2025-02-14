@@ -1,43 +1,46 @@
-import { StyleSheet, TouchableOpacity, TouchableOpacityProps, View, Text } from "react-native";
+import { StyleSheet, TouchableOpacity, TouchableOpacityProps, View, Text, Button } from "react-native";
 import { Colors } from "../../constants/Colors";
 import { Fonts } from "../../constants/Fonts";
 import { Icons } from "../../constants/Icons";
+import { VariantTypes } from "../../enums/VariantTypes";
+import { ButtonStyles } from "../../enums/ButtonStyles";
+import { ButtonStates } from "../../enums/ButtonStates";
 
 interface CustomButtonProps extends TouchableOpacityProps {
-    variant?: 'primary' | 'secondary' | 'social';
-    buttonStyle?: 'filled' | 'rounded' | 'apple' | 'google' | 'facebook';
-    state?: 'active' | 'disabled';
+    variant?: VariantTypes;
+    buttonStyle?: ButtonStyles;
+    state?: ButtonStates;
     text?: string;
     onPress?: () => void;
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
-    variant = 'primary',
-    buttonStyle = 'filled',
-    state = 'active',
+    variant = VariantTypes.Primary,
+    buttonStyle = ButtonStyles.Filled,
+    state = ButtonStates.Active,
     text,
     onPress,
     style,
     ...props
 }) => {
-    const isDisabled = state === 'disabled';
+    const isDisabled = state === ButtonStates.Disabled;
 
     const getBackgroundColor = () => {
         if (isDisabled) {
             return Colors.alertStatus.buttonDisabled
         }
 
-        return variant === 'primary' 
+        return variant === VariantTypes.Primary 
             ? Colors.main.primary[500] 
-            : variant === 'social'
+            : variant === VariantTypes.Social
             ? Colors.others.white
             : Colors.main.primary[100];
     };
 
     const getTextColor = () => {
-        return variant === 'secondary' 
+        return variant === VariantTypes.Secondary && !isDisabled
             ? Colors.main.primary[500] 
-            : variant === 'social'
+            : variant === VariantTypes.Social
             ? Colors.greyscale[900]
             : Colors.others.white;
 
@@ -45,8 +48,8 @@ const CustomButton: React.FC<CustomButtonProps> = ({
 
     const buttonStyles = [
         styles.button, 
-        buttonStyle === 'rounded' && styles.rounded,
-        variant === 'social' && styles.social,
+        buttonStyle === ButtonStyles.Rounded && styles.rounded,
+        variant === VariantTypes.Social && styles.social,
         { backgroundColor: getBackgroundColor() },
         style,
     ];
@@ -58,11 +61,11 @@ const CustomButton: React.FC<CustomButtonProps> = ({
 
     const renderIcon = () => {
         switch (buttonStyle) {
-            case 'apple':
+            case ButtonStyles.Apple:
                 return <Icons.apple/>
-            case 'google':
+            case ButtonStyles.Google:
                 return <Icons.google/>
-            case 'facebook':
+            case ButtonStyles.Facebook:
                 return <Icons.facebook/>
             default:
                 return null;
@@ -76,10 +79,10 @@ const CustomButton: React.FC<CustomButtonProps> = ({
             disabled={isDisabled}
             {...props}
         >
-            {variant === 'social' ?
-                <View style={{ flexDirection: 'row', alignItems: 'center' , gap: 12 }}>
+            {variant === VariantTypes.Social ?
+                <View style={{ flexDirection: 'row', alignItems: 'center' ,  gap: 12 }}>
                     {renderIcon()}
-                    <Text style={textStyles}>{text}</Text>
+                    {text && <Text style={textStyles}>{text}</Text>}
                 </View>
                 :
                 <Text style={textStyles}>{text}</Text>
