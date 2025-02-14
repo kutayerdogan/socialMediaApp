@@ -22,6 +22,7 @@ import Checkbox from '../../components/Checkbox/Checkbox';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useNavigation} from '@react-navigation/native';
 import { RouteNames } from '../../navigation/RouteNames';
+import { firebase } from '@react-native-firebase/auth';
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -40,6 +41,19 @@ const LoginScreen = () => {
   const isDisabled = () => {
     return !emailCheck() || !passwordCheck();
   };
+  // firebase
+  const handleLogin = () => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        Alert.alert('Logged in successfully');
+      })
+      .catch(error => {
+        Alert.alert(error.message);
+      });
+  };
+
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -83,7 +97,7 @@ const LoginScreen = () => {
               buttonStyle={ButtonStyles.Rounded}
               state={isDisabled() ? ButtonStates.Disabled : ButtonStates.Active}
               text="Sign in"
-              onPress={() => console.log('sign in')}
+              onPress={handleLogin}
             />
             <TouchableOpacity onPress={() => console.log('Forgot password')}>
               <Text style={styles.forgotPassword}>Forgot password?</Text>
