@@ -38,7 +38,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
     };
 
     const getTextColor = () => {
-        return variant === VariantTypes.Primary 
+        return variant === VariantTypes.Secondary && !isDisabled
             ? Colors.main.primary[500] 
             : variant === VariantTypes.Social
             ? Colors.greyscale[900]
@@ -80,7 +80,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
             {...props}
         >
             {variant === VariantTypes.Social ?
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' ,  gap: 12 }}>
                     {renderIcon()}
                     {text && <Text style={textStyles}>{text}</Text>}
                 </View>

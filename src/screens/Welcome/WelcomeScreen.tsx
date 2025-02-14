@@ -8,8 +8,11 @@ import {Fonts} from '../../constants/Fonts';
 import { VariantTypes } from '../../enums/VariantTypes';
 import { ButtonStyles } from '../../enums/ButtonStyles';
 import { ButtonStates } from '../../enums/ButtonStates';
+import { useNavigation } from '@react-navigation/native';
+import { RouteNames } from '../../navigation/RouteNames';
 
 const WelcomeScreen = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <CustomHeader onBackPress={() => console.log("onBackPress")}/>
@@ -51,7 +54,7 @@ const WelcomeScreen = () => {
           buttonStyle={ButtonStyles.Rounded}
           state={ButtonStates.Active}
           text="Sign in with password"
-          onPress={() => console.log('Continue with Sign in with password')}
+          onPress={() => navigation.navigate(RouteNames.LOGIN)}
         />
       </View>
       <View style={styles.footerContainer}>
@@ -63,7 +66,7 @@ const WelcomeScreen = () => {
           }}>
           Don't have an account?{' '}
         </Text>
-        <TouchableOpacity onPress={() => console.log('Sign up')}>
+        <TouchableOpacity onPress={() => navigation.navigate(RouteNames.SIGNUP)}>
           <Text
             style={{
               color: Colors.main.primary[500],
