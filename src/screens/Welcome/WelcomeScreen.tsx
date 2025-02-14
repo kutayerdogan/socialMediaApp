@@ -15,7 +15,7 @@ const WelcomeScreen = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <CustomHeader onBackPress={() => console.log("onBackPress")}/>
+      <CustomHeader onBackPress={() => navigation.goBack()}/>
       <View style={styles.iconContainer}>
         <Icons.welcome/>
       </View>

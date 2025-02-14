@@ -5,6 +5,7 @@ import {RouteNames} from './RouteNames';
 import LoginScreen from '../screens/Login/LoginScreen';
 import WelcomeScreen from '../screens/Welcome/WelcomeScreen';
 import SignUpScreen from '../screens/SignUp/SignUpScreen';
+import Onboarding from '../screens/Onboarding/Onboarding';
 const Stack = createStackNavigator();
 
 const AuthNavigator = () => {
@@ -13,8 +14,8 @@ const AuthNavigator = () => {
       screenOptions={{
         headerShown: false,
       }}>
+      <Stack.Screen name={RouteNames.ONBOARDING} component={Onboarding} />
       <Stack.Screen name={RouteNames.WELCOME} component={WelcomeScreen} />
-
       <Stack.Screen name={RouteNames.LOGIN} component={LoginScreen} />
       <Stack.Screen name={RouteNames.SIGNUP} component={SignUpScreen} />
     </Stack.Navigator>
