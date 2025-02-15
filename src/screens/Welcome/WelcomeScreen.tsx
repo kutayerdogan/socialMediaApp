@@ -10,9 +10,42 @@ import { ButtonStyles } from '../../enums/ButtonStyles';
 import { ButtonStates } from '../../enums/ButtonStates';
 import { useNavigation } from '@react-navigation/native';
 import { RouteNames } from '../../navigation/RouteNames';
+import auth from '@react-native-firebase/auth';
+import { appleAuth } from '@invertase/react-native-apple-authentication';
 
 const WelcomeScreen = () => {
   const navigation = useNavigation();
+
+  async function onAppleButtonPress() {
+    console.log('Apple sign-in process starting...');
+    // Start the sign-in request
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      // As per the FAQ of react-native-apple-authentication, the name should come first in the following array.
+      // See: https://github.com/invertase/react-native-apple-authentication#faqs
+      requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+    });
+    console.log('Apple sign-in request response received:', appleAuthRequestResponse);
+  
+    // Ensure Apple returned a user identityToken
+    if (!appleAuthRequestResponse.identityToken) {
+      console.error('Apple Sign-In failed - no identify token returned');
+      throw new Error('Apple Sign-In failed - no identify token returned');
+    }
+  
+    // Create a Firebase credential from the response
+    const { identityToken, nonce } = appleAuthRequestResponse;
+    const appleCredential = auth.AppleAuthProvider.credential(identityToken, nonce);
+    console.log('Firebase credential created:', appleCredential);
+  
+    // Sign the user in with the credential
+    return auth().signInWithCredential(appleCredential).then(() => {
+      console.log('User signed in successfully with Apple credentials.');
+    }).catch((error) => {
+      console.error('Error signing in with Apple credentials:', error);
+    });
+  }
+
   return (
     <View style={styles.container}>
       <CustomHeader onBackPress={() => navigation.goBack()}/>
@@ -42,7 +75,7 @@ const WelcomeScreen = () => {
           buttonStyle={ButtonStyles.Apple}
           state={ButtonStates.Active}
           text="Continue with Apple"
-          onPress={() => console.log('Continue with Apple')}
+          onPress={() => onAppleButtonPress()}
         />
         <View style={styles.seperator}>
           <View style={styles.line}></View>
